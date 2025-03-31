@@ -1,5 +1,5 @@
 import csv
-import os
+from datetime import datetime
 
 def read_dictionary(filename, key_column_index):
     """Read the contents of a CSV file into a compound dictionary and return the dictionary.
@@ -10,56 +10,97 @@ def read_dictionary(filename, key_column_index):
     Return: a compound dictionary that contains the contents of the CSV file.
     """
     dictionary = {}
+    try:
+        with open(filename, "rt") as csv_file:
+            reader = csv.reader(csv_file)
+            next(reader)  # Skip header row
+            
+            for row in reader:
+                if len(row) != 0:
+                    key = row[key_column_index]
+                    dictionary[key] = row
+    except FileNotFoundError as error:
+        raise FileNotFoundError(f"Error: missing file\n{error}")
+    except PermissionError as error:
+        raise PermissionError(f"Error: permission denied\n{error}")
     
-    with open(filename, "rt") as csv_file:
-        reader = csv.reader(csv_file)
-        next(reader)  # Skip the header row
-        
-        for row in reader:
-            if len(row) != 0:  # Skip empty rows
-                key = row[key_column_index]
-                dictionary[key] = row
-                
     return dictionary
 
 def main():
     try:
-        # Read the products dictionary
+        # Store information
+        STORE_NAME = "Inkom Emporium"
+        TAX_RATE = 0.06
+        
+        # Read products dictionary
         products_dict = read_dictionary("products.csv", 0)
         
-        print("All Products")
-        print(products_dict)
-        print()
+        # Initialize receipt variables
+        ordered_items = []
+        total_items = 0
+        subtotal = 0.0
         
-        print("Requested Items")
-        
-        # Open the request file and process each row
+        # Process request.csv
         with open("request.csv", "rt") as csv_file:
             reader = csv.reader(csv_file)
-            next(reader)  # Skip the header row
+            next(reader)  # Skip header row
             
             for row in reader:
-                if len(row) != 0:  # Skip empty rows
+                if len(row) != 0:
                     product_number = row[0]
                     quantity = int(row[1])
                     
-                    # Get the product info from the dictionary
+                    # Get product info
                     product_info = products_dict[product_number]
                     product_name = product_info[1]
                     price = float(product_info[2])
                     
-                    # Print the product details
-                    print(f"{product_name}: {quantity} @ {price:.2f}")
+                    # Calculate item total
+                    item_total = quantity * price
+                    
+                    # Add to receipt lists
+                    ordered_items.append({
+                        'name': product_name,
+                        'quantity': quantity,
+                        'price': price,
+                        'total': item_total
+                    })
+                    
+                    # Update totals
+                    total_items += quantity
+                    subtotal += item_total
+        
+        # Calculate taxes and total
+        sales_tax = subtotal * TAX_RATE
+        total = subtotal + sales_tax
+        
+        # Get current date and time
+        current_date_and_time = datetime.now()
+        
+        # Print receipt
+        print(STORE_NAME)
+        for item in ordered_items:
+            print(f"{item['name']}: {item['quantity']} @ {item['price']:.2f}")
+        
+        print(f"\nNumber of Items: {total_items}")
+        print(f"Subtotal: {subtotal:.2f}")
+        print(f"Sales Tax: {sales_tax:.2f}")
+        print(f"Total: {total:.2f}")
+        print("\nThank you for shopping at the Inkom Emporium.")
+        print(current_date_and_time.strftime("%a %b %d %H:%M:%S %Y"))
+        
+        # EXCEEDING REQUIREMENTS: New Years Sale reminder
+        today = datetime.now()
+        new_year = datetime(today.year + 1, 1, 1)
+        days_until_new_year = (new_year - today).days
+        print(f"\nOnly {days_until_new_year} days until our New Years Sale!")
     
     except FileNotFoundError as error:
-        print("Error: missing file")
         print(error)
     except PermissionError as error:
-        print("Error: permission denied")
         print(error)
     except KeyError as error:
-        print("Error: unknown product ID in the request.csv file")
-        print(error)
+        print(f"Error: unknown product ID in the request.csv file\n{error}")
 
 if __name__ == "__main__":
     main()
