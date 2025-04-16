@@ -1,5 +1,5 @@
 import pytest
-from finance_tracker import *
+from Finance_tracker.finance_tracker import *
 
 # Fixture for test data
 @pytest.fixture
@@ -10,7 +10,6 @@ def sample_transactions():
         Transaction(200, "food", "2023-01-05", "expense")
     ]
 
-# Test cases
 def test_load_transactions():
     test_data = load_transactions('test_data.csv')
     assert len(test_data) == 3

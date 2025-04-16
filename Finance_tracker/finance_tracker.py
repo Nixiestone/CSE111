@@ -78,7 +78,6 @@ def save_goals(goals):
 def progress_toward_goal(current, goal):
     return (current / goal) * 100 if goal != 0 else 0
 
-# Main program execution
 def main():
     transactions = []
     goals = {}
