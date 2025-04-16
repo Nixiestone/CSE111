@@ -1,0 +1,4 @@
+amount,category,date,type
+1000,salary,2023-01-01,income
+500,rent,2023-01-01,expense
+200,food,2023-01-05,expense

@@ -1,0 +1,69 @@
+CSE 111 Proposal for a Student Chosen Program
+
+    (This is a proposal. All proposals are written with our best
+    knowledge at the beginning of a project. As we progress from the
+    beginning to the end of a project, we gain more knowledge, and we
+    change some of our proposed ideas. This is part of completing any
+    project and is fine.  However, we still must write a proposal so
+    that our teachers or supervisors know what we intend to do. Please
+    answer each of the following questions to the best of your
+    knowledge.)
+
+1. What is the title of your program?
+      Personal Finance Tracker
+
+2. What real-world problem will your program address or help to solve?
+     Many students struggle to manage their personal finances effectively. This program will help users track income, expenses, and savings goals, providing visualizations of spending patterns and budget adherence.
+
+3. What will you learn from developing this program?
+     Advanced data maipulation with Python
+     Creating graphical visualizations
+     Presistent data storage
+     Exception handling for financial calculations 
+
+4. What Python modules will your program use?
+     csv for importing/exporting transaction data
+     datetime for date based finiancial tracking
+     matplotlib for expense visualizations
+     pytest for testing functions
+
+    (Some examples are: csv, datetime, functools, matplotlib, math,
+    pandas, pytest, random, requests, and tkinter.)
+
+5. List the names of functions you will need?
+      load_transactions(filename) - Reads financial data from CSV
+
+     categorize_spending(transactions) - Organizes expenses by category
+
+     calculate_budget(income, expenses) - Determines budget allocation
+
+     generate_report(transactions, timeframe) - Creates summary statistics
+
+     plot_spending(transactions) - Visualizes expense distribution
+
+     save_goals(goals) - Stores savings targets
+
+     progress_toward_goal(current, goal) - Calculates goal completion
+
+
+    (Remember that the most reusable functions don't get user input and
+    don't print results but instead have parameters and return a result.
+    Functions that get user input and print results are important and do
+    useful work but are not easily reusable.)
+
+    (Remember also that it's hard to test functions that get user input
+    and print results. It's easy to test functions that don't get user
+    input and don't print results but instead have parameters and return
+    a result. Therefore, you should write most of your program functions
+    to have parameters and return a result.)
+
+6. List the names of the test functions you will write.
+      test_load_transactions() - Verifies CSV import
+
+     test_categorize_spending() - Checks expense categorization
+
+     test_calculate_budget() - Validates budget calculations
+
+     test_progress_toward_goal() - Confirms goal tracking math
+
+     test_report_generation() - Ensures accurate summaries
